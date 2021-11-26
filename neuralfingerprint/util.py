@@ -19,14 +19,14 @@ def collect_test_losses(num_folds):
                 with open(fname) as f:
                     results[net_type].append(pickle.load(f))
             except IOError:
-                print "Couldn't find file {0}".format(fname)
+                print ("Couldn't find file"[0].format(fname))
 
-    print "Results are:"
-    print results
-    print "Means:"
-    print {k : np.mean(v) for k, v in results.iteritems()}
-    print "Std errors:"
-    print {k : np.std(v) / np.sqrt(len(v) - 1) for k, v in results.iteritems()}
+    print ("Results are:")
+    print (results)
+    print ("Means:")
+    print ({k : np.mean(v) for k, v in results.iteritems()})
+    print ("Std errors:")
+    print ({k : np.std(v) / np.sqrt(len(v) - 1) for k, v in results.iteritems()})
 
 def record_loss(loss, expt_ix, net_type):
     fname = "Final_test_loss_{0}_{1}.pkl.save".format(expt_ix, net_type)
@@ -74,11 +74,11 @@ def normalize_array(A):
 
 @contextmanager
 def tictoc():
-    print "--- Start clock ---"
+    print ("--- Start clock ---")
     t1 = time()
     yield
     dt = time() - t1
-    print "--- Stop clock: %s seconds elapsed ---" % dt
+    print ("--- Stop clock: %s seconds elapsed ---" % dt)
 
 class WeightsParser(object):
     """A kind of dictionary of weights shapes,

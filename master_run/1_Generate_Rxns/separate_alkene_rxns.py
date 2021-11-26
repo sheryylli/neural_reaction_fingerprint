@@ -1,6 +1,12 @@
+from __future__ import print_function
+
 import copy
 from rdkit import Chem
 from rdkit.Chem import AllChem
+import sys
+sys.path.append('/Users/sherylli/react-blog/neural_reaction_fingerprint')
+sys.path.append('/Users/sherylli/react-blog/neural_reaction_fingerprint/neuralfingerprint')
+
 from neuralfingerprint.toolkit import MarkMarkovAtom, GetDoubleBondAtoms, get_molecule_smi
 from alkene_rxn_components import Mark_rxn_dict, other_rxn_dict
 
@@ -20,7 +26,7 @@ def write_rxn(mol, nucl, reagents, rxn_vector, prods):
 
 
     if len(prods)==0:
-        print 'error, no prods'
+        print('error, no prods')
         return '' 
     else:
         prod_smi = [Chem.MolToSmiles(prod_mol) for prod_mol in prods[0]]
@@ -96,7 +102,7 @@ def write_rxn_all_combos(rxn_mech, mol, other_reactants_list, reagent_list,  rxn
                 if swap_flag:
                     all_rxn_str += write_rxn('', mol, reag, rxn_vector, prod_list)
             else:
-                print 'alert no products'
+                print('alert no products')
         else:  
             for o_r in other_reactants_list:
                 o_r_mol = Chem.MolFromSmiles(o_r)
@@ -109,7 +115,7 @@ def write_rxn_all_combos(rxn_mech, mol, other_reactants_list, reagent_list,  rxn
                     if swap_flag:
                         all_rxn_str += write_rxn(o_r_mol, mol, reag, rxn_vector, prod_list)
                 else:
-                    print 'alert no products'
+                    print('alert no products')
      
     return all_rxn_str
 
@@ -151,7 +157,7 @@ debug_flag = False
 
 for i in xrange(len(alkenes)):
 
-    if i % 100 == 0: print i
+    if i % 100 == 0: print(i)
     
     alkene_smi = alkenes[i]    
     alk = Chem.MolFromSmiles(alkene_smi)
@@ -166,7 +172,7 @@ for i in xrange(len(alkenes)):
     
     for Mark_rxn in Mark_rxn_dict.keys():
         # React the Mark sensitive side
-        if debug_flag: print Mark_rxn
+        if debug_flag: print(Mark_rxn)
         
         rxn_mech, rxn_num, other_reactants_list, reagents_list = Mark_rxn_dict[Mark_rxn] 
         rxn_vector = one_hot_encoding(rxn_num, max_vector_length)
@@ -176,7 +182,7 @@ for i in xrange(len(alkenes)):
 
     for rxn in other_rxn_dict.keys():
         if debug_flag: 
-            print rxn
+            print(rxn)
 
         rxn_mech, rxn_num, other_reactants_list, reagents_list = other_rxn_dict[rxn]  
         rxn_vector = one_hot_encoding(rxn_num, max_vector_length)
